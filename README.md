@@ -239,7 +239,7 @@ tbl = MC_thrityyear.summarize_cumulative_return()
 print(tb1)
 ```
 ### result
-1[](https://github.com/bleachevil/API-homework/blob/main/project2data4.png?raw=true)
+![](https://github.com/bleachevil/API-homework/blob/main/project2data4.png?raw=true)
 
 ### Calculate the expected portfolio return at the 95% lower and upper confidence intervals based on a $20,000 initial investment
 ```
