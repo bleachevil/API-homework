@@ -144,3 +144,24 @@ df_savings.plot.pie(subplots=True, figsize=(11, 6))
 ### result
 ![](https://github.com/bleachevil/API-homework/blob/main/resultdisplay2.png?raw=true)
 
+#### Set ideal emergency fund (equal to three times monthly income which is 36000)
+```
+emergency_fund = monthly_income * 3
+```
+#### Calculate total amount of savings
+```
+total_savings = float(df_savings.sum())
+```
+#### Validate saving health
+```
+if total_savings > emergency_fund:
+    print("congratulating the person for having enough money in this fund.")
+elif total_savings == emergency_fund:
+    print("congratulating the person on reaching this financial goal.")
+else:
+    print(f"${emergency_fund - total_savings} dollars away the person is from reaching the goal.")
+```
+### result
+congratulating the person for having enough money in this fund.
+
+
