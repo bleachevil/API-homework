@@ -2,7 +2,7 @@
 ## Unit 5 - Financial Planning
 ### intial import (we need follow pip for this homework)
 ```
-import os
+import os 
 import requests
 import pandas as pd
 import json
