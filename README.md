@@ -89,3 +89,58 @@ df1
 ```
 ### result
 ![](https://github.com/bleachevil/API-homework/blob/main/resultfordf1.png?raw=true)
+
+#### Pick AGG and SPY close prices
+```
+agg_close_price = df1.iloc[-1][0]
+spy_close_price = df1.iloc[-1][1]
+```
+#### Print AGG and SPY close prices
+```
+print(f"Current AGG closing price: ${agg_close_price}")
+print(f"Current SPY closing price: ${spy_close_price}")
+```
+### result
+Current AGG closing price: $106.1<br />
+Current SPY closing price: $452.69<br />
+
+#### Compute the current value of shares
+```
+my_spy_value = spy_close_price * my_spy
+my_agg_value = agg_close_price * my_agg
+```
+#### Print current value of shares
+```
+print(f"The current value of your {my_spy} SPY shares is ${my_spy_value:0.2f}")
+print(f"The current value of your {my_agg} AGG shares is ${my_agg_value:0.2f}")
+```
+### result
+The current value of your 50 SPY shares is $22634.50<br />
+The current value of your 200 AGG shares is $21220.00<br />
+
+### Savings Health Analysis
+#### Set monthly household income
+```
+monthly_income = 12000
+```
+#### Consolidate financial assets data
+```
+crypto = my_btc_value + my_eth_value
+shares = my_spy_value + my_agg_value
+data = {'amount':[crypto,shares]}
+```
+#### Create and display savings DataFrame
+```
+df_savings = pd.DataFrame(data, index = ['crypto','shares'])
+display(df_savings)
+```
+### result
+![](https://github.com/bleachevil/API-homework/blob/main/resultdisplay1.png?raw=true)
+
+#### Plot savings pie chart
+```
+df_savings.plot.pie(subplots=True, figsize=(11, 6))
+```
+### result
+![](https://github.com/bleachevil/API-homework/blob/main/resultdisplay2.png?raw=true)
+
