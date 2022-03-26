@@ -164,4 +164,129 @@ else:
 ### result
 congratulating the person for having enough money in this fund.
 
+## Part 2 - Retirement Planning
+### Monte Carlo Simulation
+Note: finish the homework with all Optional Challenge - Early Retirement (forecast 5 and 10 years)<br />
+
+**will not present code for 5 and 10 years forecast however will present the result**
+
+#### Get 5 years' worth of historical data for SPY and AGG
+```
+start_date = '2016-05-01'
+end_date = '2021-05-01'
+
+data = alpaca.get_bars('AGG', TimeFrame.Day, start_date, end_date, adjustment='raw').df
+data.drop(columns=['trade_count','vwap'], inplace=True)
+name = 'AGG'
+col = pd.MultiIndex.from_product([[name],data.columns])
+data.columns = col
+
+data2 = alpaca.get_bars('SPY', TimeFrame.Day, start_date, end_date, adjustment='raw').df
+data2.drop(columns=['trade_count','vwap'], inplace=True)
+name2 = 'SPY'
+col2 = pd.MultiIndex.from_product([[name2],data2.columns])
+data2.columns = col2
+
+df_stock_data = data.merge(data2, how="inner", left_index=True, right_index=True)
+df_stock_data.head()
+```
+### result
+![](https://github.com/bleachevil/API-homework/blob/main/project2data1.png?raw=true)
+
+#### Configuring a Monte Carlo simulation to forecast 30 years cumulative returns
+```
+MC_thrityyear = MCSimulation(
+    portfolio_data = df_stock_data,
+    weights = [.40,.60],
+    num_simulation = 500,
+    num_trading_days = 252*30)
+```
+#### Printing the simulation input data and result
+```
+MC_thrityyear.portfolio_data.head()
+```
+### result
+![](https://github.com/bleachevil/API-homework/blob/main/project2data2.png?raw=true)
+
+#### Running a Monte Carlo simulation to forecast 30 years cumulative returns
+```
+MC_thrityyear.calc_cumulative_return()
+```
+### result
+![](https://github.com/bleachevil/API-homework/blob/main/project2data3.png?raw=true)
+
+#### Plot simulation outcomes
+```
+line_plot = MC_thrityyear.plot_simulation()
+line_plot.get_figure().savefig("MC_thrityyear_sim_plot.png", bbox_inches="tight")
+```
+### result
+![](https://github.com/bleachevil/API-homework/blob/main/MC_thrityyear_sim_plot.png?raw=true)
+
+#### Plot probability distribution and confidence intervals
+```
+dist_plot = MC_thrityyear.plot_distribution()
+dist_plot.get_figure().savefig('MC_thrityyear_dist_plot.png',bbox_inches='tight')
+```
+### result
+![](https://github.com/bleachevil/API-homework/blob/main/MC_thrityyear_dist_plot.png?raw=true)
+
+## Retirement Analysis
+
+#### Fetch summary statistics from the Monte Carlo simulation results
+```
+tbl = MC_thrityyear.summarize_cumulative_return()
+print(tb1)
+```
+### result
+1[](https://github.com/bleachevil/API-homework/blob/main/project2data4.png?raw=true)
+
+### Calculate the expected portfolio return at the 95% lower and upper confidence intervals based on a $20,000 initial investment
+```
+initial_investment = 20000
+ci_lower = round(tbl[8]*10000,2)
+ci_upper = round(tbl[9]*10000,2)
+print(f"There is a 95% chance that an initial investment of ${initial_investment} in the portfolio"
+      f" over the next 30 years will end within in the range of"
+      f" ${ci_lower} and ${ci_upper}")
+      
+```
+### result
+There is a 95% chance that an initial investment of $20000 in the portfolio over the next 30 years will end within in the range of $47255.79 and $461847.23
+ 
+### Calculate the expected portfolio return at the 95% lower and upper confidence intervals based on a 50% increase in the initial investment.
+```
+initial_investment = 20000 * 1.5
+ci_lower = round(tbl[8]*10000,2)
+ci_upper = round(tbl[9]*10000,2)
+print(f"There is a 95% chance that an initial investment of ${initial_investment} in the portfolio"
+      f" over the next 30 years will end within in the range of"
+      f" ${ci_lower} and ${ci_upper}")
+```
+### result
+There is a 95% chance that an initial investment of $30000.0 in the portfolio over the next 30 years will end within in the range of $47255.79 and $461847.23
+
+## Optional Challenge - Early Retirement
+
+### Five Years Retirement Option (result only)
+
+#### Plot simulation outcomes
+![](https://github.com/bleachevil/API-homework/blob/main/MC_fiveyear_sim_plot.png?raw=true)
+
+#### Plot probability distribution and confidence intervals
+![](https://github.com/bleachevil/API-homework/blob/main/MC_tenyear_dist_plot.png?raw=true)
+
+#### Calculate the expected portfolio return at the 95% lower and upper confidence intervals based on a $20,000 initial investment.
+There is a 95% chance that an initial investment of $20000 in the portfolio over the next 5 years will end within in the range of $9447.07 and $25364.85
+
+### ten Years Retirement Option (result only)
+
+#### Plot simulation outcomes
+![](https://github.com/bleachevil/API-homework/blob/main/MC_tenyear_sim_plot.png?raw=true)
+
+#### Plot probability distribution and confidence intervals
+![](https://github.com/bleachevil/API-homework/blob/main/MC_tenyear_dist_plot.png?raw=true)
+
+#### Calculate the expected portfolio return at the 95% lower and upper confidence intervals based on a $20,000 initial investment.
+There is a 95% chance that an initial investment of $20000 in the portfolio over the next 10 years will end within in the range of $12966.3 and $49890.23
 
