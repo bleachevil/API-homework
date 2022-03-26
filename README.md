@@ -1,6 +1,6 @@
 # API-homework
 ## Unit 5 - Financial Planning
-### intial import
+### intial import (we need follow pip for this homework)
 ```
 import os
 import requests
