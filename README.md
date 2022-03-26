@@ -51,3 +51,40 @@ print(f"The current value of your {my_eth} ETH is ${my_eth_value:0.2f}")
 ### Result
 The current value of your 1.2 BTC is $66368.83<br />
 The current value of your 5.3 ETH is $20651.87<br />
+
+### Collect Investments Data Using Alpaca: SPY (stocks) and AGG (bonds)
+
+#### Set current amount of shares
+my_agg = 200<br />
+my_spy = 50<br />
+
+#### Set Alpaca API key and secret
+```
+alpaca_api_key = os.getenv('ALPACA_API_KEY')
+alpaca_secret_key = os.getenv('ALPACA_SECRET_KEY')
+```
+#### Create the Alpaca API object
+```
+alpaca = tradeapi.REST(alpaca_api_key,alpaca_secret_key,api_version='v2')
+```
+#### set open and close day and with limit of 1000
+```
+today = date.today()
+td = timedelta(1000)
+open_day = today - td
+close_day = today - timedelta(1) 
+openday = open_day.strftime("%Y-%m-%d")
+closeday = close_day.strftime("%Y-%m-%d")
+```
+#### Set the tickers
+```
+tickers = ["AGG", "SPY"]
+```
+#### Get current closing prices for SPY and AGG
+```
+df = alpaca.get_bars(tickers, TimeFrame.Day,openday, closeday, adjustment='raw').df
+df.index = df.index.date
+df1 = pd.pivot_table(df,values='close', index=df.index, columns = ['symbol'])
+df1
+```
+### result
