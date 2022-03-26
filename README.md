@@ -88,3 +88,4 @@ df1 = pd.pivot_table(df,values='close', index=df.index, columns = ['symbol'])
 df1
 ```
 ### result
+![](https://github.com/bleachevil/API-homework/blob/main/resultfordf1.png?raw=true)
